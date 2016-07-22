@@ -14,8 +14,8 @@ public class NetworkManager : Photon.MonoBehaviour {
 	void Awake()
 	{
 		_mySceneManager = GameObject.Find ("MySceneManager").GetComponent<MySceneManager> ();
-		if(_textConnectionState == null)
-			_textConnectionState = GameObject.Find ("TextConnectionState").GetComponent<Text> ();
+//		if(_textConnectionState == null)
+//			_textConnectionState = GameObject.Find ("TextConnectionState").GetComponent<Text> ();
 		PhotonNetwork.ConnectUsingSettings ("v0.1");
 	}
 

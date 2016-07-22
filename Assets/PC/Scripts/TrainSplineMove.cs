@@ -7,7 +7,7 @@ public class TrainSplineMove : MonoBehaviour {
 
 	[Range(0.0f, 1.0f)]
 	public float moveSpeed = 0.5f;
-	public GameObject player;
+	private GameObject player;
 	private Transform[] wayPoints;
 	private Transform[] velPoints;
 
@@ -42,6 +42,7 @@ public class TrainSplineMove : MonoBehaviour {
 	}
 
 	public void InitWayPoint(){
+		player = this.transform.parent.Find ("Player").gameObject;
 		wayPoints = new Transform[buf];
 		velPoints = new Transform[buf];
 		pos_wayPoint = new Vector3[2];
@@ -104,16 +105,13 @@ public class TrainSplineMove : MonoBehaviour {
 			player.transform.position = GetPosition (t);
 		} else {
 			player.transform.position = GetPosition (1);
-			Debug.Log (wayPointsParent.transform.childCount);
-			Debug.Log (arriveWayPointCount);
+
 			//次に目指すwayPointの更新
 			if (wayPointsParent.transform.childCount > (arriveWayPointCount+2)) {
 				arriveWayPointCount += 1;
 				t = 0;
-				Debug.Log ("aP:"+arriveWayPointCount);
 				UpdateWayPoint (arriveWayPointCount);
 			} else {
-				Debug.Log ("a");
 				canMove = false;
 				countFromStart = 0;
 			}

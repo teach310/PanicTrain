@@ -10,6 +10,8 @@ public class TrainController : MonoBehaviour {
 	public float scale = 1;
 	int index = 1;
 	public TrainSplineMove trainSplineMove;
+	public GameObject train;
+
 
 	public enum MoveDirection{
 		LEFT = -1,
@@ -26,7 +28,21 @@ public class TrainController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		wayPointParent = this.transform.parent.Find ("Waypoints").gameObject;
-		SetStartLinePanel (wayPointParent.transform.GetChild(0).position);
+		Vector3 startPos = wayPointParent.transform.GetChild (0).position;
+		//Local
+		//GameObject player = Instantiate (train, startPos, Quaternion.identity) as GameObject;
+
+		//Online
+		GameObject player =  PhotonNetwork.Instantiate ("train",
+			startPos,
+			Quaternion.identity,
+			0) as GameObject;
+		
+		player.name = "Player";
+		player.transform.parent = this.transform.parent;
+		SetStartLinePanel (startPos);
+
+
 	}
 	
 	// Update is called once per frame
@@ -58,24 +74,23 @@ public class TrainController : MonoBehaviour {
 	void SetStartLinePanel(Vector3 startPos){
 		
 		SpawnLinePanel(0, startPos + (scale * Vector3.forward)/2);
-		//SpawnLinePanel (0, currentCenterPosition + scale * Vector3.forward);
 		trainSplineMove.StopMove ();
 	}
 
 
 	void SpawnLinePanel(int dir, Vector3 pos){
-
-//		GameObject newLinePanel = PhotonNetwork.Instantiate (linePanels [dir + 1],
-//												currentCenterPosition + scale * Vector3.forward,
-//												Quaternion.Euler (Vector3.zero),
-//												0) as GameObject;
-		//Test-----------------
-		GameObject newLinePanel = Instantiate (
-			                          panels [dir + 1], 
+		//Online
+		GameObject newLinePanel = PhotonNetwork.Instantiate ("Line/"+linePanels [dir + 1],
 			pos,
-			                          Quaternion.Euler (Vector3.zero)) as GameObject;
-
-		//
+												Quaternion.Euler (Vector3.zero),
+												0) as GameObject;
+		//Local-----------------
+//		GameObject newLinePanel = Instantiate (
+//			                          panels [dir + 1], 
+//			pos,
+//			                          Quaternion.Euler (Vector3.zero)) as GameObject;
+		//--------
+		newLinePanel.transform.parent = this.transform.parent;
 		newLinePanel.transform.RotateAround (currentCenterPosition, Vector3.up, currentAngle * 45);
 
 		Transform waypoint = newLinePanel.transform.FindChild ("Waypoint");
