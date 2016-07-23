@@ -14,6 +14,8 @@ public class EnemyBehaviour : MonoBehaviour {
 
 	private Animation _anim;
 
+	//Test
+	private bool stop = false;
 	void Awake()
 	{
 		_playerTransform = GameObject.FindGameObjectWithTag ("Player").transform;
@@ -27,7 +29,12 @@ public class EnemyBehaviour : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (_enemyHealth.currentHealth > 0 && _playerHealth.currentHealth > 0) {
+
+		if (Vector3.Distance (this.transform.position, _playerTransform.position) < 2) {
+			stop = true;
+		}
+
+		if (_enemyHealth.currentHealth > 0 && _playerHealth.currentHealth > 0 && !stop) {
 			_nav.SetDestination (_playerTransform.position);
 		} else {
 			_nav.enabled = false;
