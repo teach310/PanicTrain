@@ -7,11 +7,17 @@ public class PlayerHealth : MonoBehaviour {
 	public int startingHealth = 20;
 	public int currentHealth;
 	//public Slider healthSlider;
+	private GameObject _gameManager;
 
-	private GameManagerMB _gameManagerMB;
 
 	void Awake(){
 		currentHealth = startingHealth;
+	}
+
+	void Start(){
+		_gameManager = GameObject.Find ("GameManager");
+		Debug.Log (_gameManager);
+		_gameManager.SendMessage("TrainStandBy");
 	}
 
 
@@ -23,7 +29,7 @@ public class PlayerHealth : MonoBehaviour {
 	//	healthSlider.value = currentHealth;
 
 		if (currentHealth <= 0) {
-			_gameManagerMB.SetCurrentScene (GameManagerMB.GameState.GAMEOVER);
+			_gameManager.SendMessage("SetCurrentScene", GameManagerMB.GameState.GAMEOVER);
 		}
 	}
 }

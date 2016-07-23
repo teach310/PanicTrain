@@ -57,5 +57,11 @@ public class NetworkManagerMB : Photon.MonoBehaviour {
 		_mySceneManager.SetCurrentScene (state);
 	}
 
+	[PunRPC]
+	void SetCameraRPC(){
+		//GameObject.Find ("UIManager").SendMessage ("SetCamera");
+		Debug.Log("a");
+	}
+
 
 }

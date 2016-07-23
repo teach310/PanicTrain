@@ -53,4 +53,9 @@ public class NetworkManager : Photon.MonoBehaviour {
 			_room.open = false;
 		}
 	}
+
+	[PunRPC]
+	void SetCameraRPC(){
+		GameObject.Find ("UIManager").SendMessage ("SetCamera");
+	}
 }
